@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "langpeak-3ee5c": {
+      "hosting": {
+        "langpeak": [
+          "langpeak-3ee5c"
+        ]
+      }
+    }
+  }
+}

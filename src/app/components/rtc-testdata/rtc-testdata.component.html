@@ -1,0 +1,40 @@
+
+
+ID: {{rtcDataConnection.uuid}}
+
+{{rtcDataConnection.peerConnectionState$ | async}}
+
+
+{{(stats | async) | json}}
+
+<form [formGroup]="form" style="margin-top: 20px">
+  <mat-form-field>
+    <mat-label>Input</mat-label>
+    <input matInput formControlName="input">
+  </mat-form-field>
+
+  <button mat-stroked-button (click)="send()" type="button" class="btn btn-primary btn-lg">
+    Send
+  </button>
+</form>
+
+<div>
+  <h2>OUTPUT</h2>
+<!--  <p *ngIf="(dataChannelContainer) as channel">HERE: {{(channel.message$ | async)?.data}}</p>-->
+  {{(receivedMessage$ | async)}}
+</div>
+
+
+
+
+<div class="col-lg-12 button-container">
+  <button mat-stroked-button (click)="connect()" type="button" class="btn btn-primary btn-lg">
+    <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Connect
+  </button>
+  <button mat-stroked-button (click)="disconnect()" type="button" class="btn btn-primary btn-lg">
+    <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Hangup
+  </button>
+  <button mat-stroked-button (click)="showStats()" type="button" class="btn btn-primary btn-lg">
+    <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Stats
+  </button>
+</div>

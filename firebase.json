@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "langpeak",
+      "public": "dist/langpeak",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}
