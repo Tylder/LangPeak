@@ -1,0 +1,22 @@
+<div>
+<!--  {{textEntry | json}}-->
+<!--  {{question.data | json}}-->
+  <ng-container *ngFor="let question of questions">
+
+<!--    {{question.data.textBefore | json}}-->
+
+    <span  *ngIf="question.data.textBefore as textBefore" class="fill-blank-text">{{textBefore}}</span>
+    <app-fill-blank-text [question]="question.question"></app-fill-blank-text>
+    <span  *ngIf="question.data.textAfter as textAfter" class="fill-blank-text">{{textAfter}}</span>
+<!--    {{question.data | json}}-->
+
+<!--    <input  [hidden]="textPart.isHidden" class="input" [formControl]="input" [appInputBlankText]="'teasdasdasdst'">-->
+
+<!--    <app-fill-blank-text *ngIf="!textPart?.length" [textPart]="textPart"></app-fill-blank-text>-->
+<!--    <span *ngIf="textPart.isHidden" class="input" [formControl]="input" [appInputBlankText]="textPart.text">-->
+
+<!--    <span  *ngIf="textPart?.length" class="fill-blank-text">{{textPart.text}}</span>-->
+  </ng-container>
+
+</div>
+

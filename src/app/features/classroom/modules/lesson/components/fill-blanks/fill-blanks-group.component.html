@@ -1,0 +1,29 @@
+<!--<div *ngFor="let fillblankRow of partEntryData.questions; let i = index" fxLayout="row" fxLayoutAlign=" center" class="row">-->
+<!--  <span class="index">{{i}}</span>-->
+<!--  <app-fill-blanks-row  [textEntry]="fillblankRow"></app-fill-blanks-row>-->
+<!--</div>-->
+<div class="question-group">
+
+  <div class="question-group-top" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="label">Questions</div>
+    <div class="actions">
+
+      <button mat-icon-button color="primary" (click)="addQuestion()">
+        <mat-icon matTooltip="Add Question to Group">add_box</mat-icon>
+      </button>
+      <button mat-icon-button color="primary">
+        <mat-icon matTooltip="Add QuestionGroup">library_add</mat-icon>
+      </button>
+
+    </div>
+  </div>
+
+
+  <div *ngFor="let questionRow of questions.getQuestionsAndGroups(); let i = index" fxLayout="row" fxLayoutAlign=" center" class="row">
+  <!--  <span class="index">{{i}}</span>-->
+    <app-question-index [question]="questionRow" [index]="i" [questionGroup]="questions"></app-question-index>
+  <!--  {{questionRow.data | json}}-->
+    <app-fill-blanks-row  [question]="questionRow"></app-fill-blanks-row>
+  </div>
+
+</div>

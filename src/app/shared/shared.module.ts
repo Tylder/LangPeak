@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {MaterialModule} from './material.module';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {CdkTableModule} from '@angular/cdk/table';
@@ -16,6 +16,9 @@ import {environment} from '../../environments/environment';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireAnalyticsModule} from '@angular/fire/analytics';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {BaseMockHttpService} from './services/base-mock-http.service';
+import {UtilsService} from './services/utils.service';
+
 
 
 @NgModule({
@@ -33,6 +36,9 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
   ],
   exports: [
     CommonModule,
+    // NoopAnimationsModule,
+    MaterialModule,
+    FlexLayoutModule,
     AngularFireModule,
     AngularFireAuthModule,
     AngularFireAnalyticsModule,
@@ -41,15 +47,14 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
     ReactiveFormsModule,
     HttpClientModule,
     CdkTableModule,
-    MaterialModule,
-    BrowserAnimationsModule,
-    FlexLayoutModule,
+
+
     DragDropModule,
     NgxSpinnerModule,
     AngularResizedEventModule,
+    ClickableDirective,
 
   ],
-  providers: [
-  ]
+  providers: [UtilsService]
 })
 export class SharedModule { }

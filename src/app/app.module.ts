@@ -16,6 +16,7 @@ import {SharedModule} from './shared/shared.module';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {RtcTestdataComponent} from './components/rtc-testdata/rtc-testdata.component';
 import {CoreModule} from './core/core.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import {CoreModule} from './core/core.module';
     RtcTestdataComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserAnimationsModule,
     SharedModule,
     CoreModule,
     AppRoutingModule,

@@ -1,0 +1,13 @@
+
+<div class="lesson box">
+
+<!--  <div *ngFor="let partEntry of (lessonService.getAll$() | async)[0]?.mainParts[0]?.entries">-->
+<!--    {{partEntry | json}}-->
+<!--  </div>-->
+
+  <app-fill-blanks-group *ngFor="let partEntry of (lessonService.getPart$() | async)?.entries"
+                         [questionsData]="partEntry.questions"
+                         [startShowAmount]="5">
+  </app-fill-blanks-group>
+</div>
+

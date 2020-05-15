@@ -1,0 +1,33 @@
+.fill-blank-text {
+  font-family: "Roboto Light", "Open Sans", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 200;
+  letter-spacing: 0.5px;
+
+  margin-right: 5px;
+
+  margin-bottom: 12px;
+  margin-top: 12px;
+  //line-height: 36px;
+}
+
+.fill-blank-input {
+  @extend .fill-blank-text;
+
+  border-radius: 5px;
+  border: solid 1px lighten(black, 80);
+  //
+  //margin-bottom: 8px;
+  //margin-top: 8px;
+}
+
+.fill-blank-valid-box {
+  @extend .fill-blank-input;
+
+  margin-bottom: 8px;
+  margin-top: 8px;
+
+  background-color: rgb(236, 249, 221);
+  padding: 5px 8px 5px 8px;
+
+}
