@@ -15,23 +15,9 @@ import {QuestionService} from '../../services/state/question.service';
 })
 export class FillBlanksGroupComponent extends BaseQuestionGroupComponent implements OnInit {
 
-  constructor(private lessonService: LessonService,
-              questionService: QuestionService,
-              utilsService: UtilsService) {
-    super(utilsService, questionService);
+  constructor() {
+    super();
   }
 
-  ngOnInit(): void {
-
-    super.ngOnInit(); // creates the question Handler
-
-    this.questions.valueChanges.subscribe(value => console.log(value));
-
-    this.questions.statusChanges.subscribe(value => {
-      console.log(this.questions);
-    });
-  }
-
-
-
+  ngOnInit(): void {}
 }

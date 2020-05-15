@@ -14,6 +14,9 @@ import { BaseQuestionGroupComponent } from './components/base-question-group/bas
 import {QuestionService} from './services/state/question.service';
 import { QuestionIndexComponent } from './components/question-index/question-index.component';
 import { QuestionGroupContainerComponent } from './components/question-group-container/question-group-container.component';
+import { EntryContentDirective } from './directives/entry-content.directive';
+import { BaseEntryComponent } from './components/base-entry/base-entry.component';
+import {QuestionsModule} from './questions/questions.module';
 
 
 @NgModule({
@@ -28,11 +31,14 @@ import { QuestionGroupContainerComponent } from './components/question-group-con
     FillBlankValidComponent,
     QuestionIndexComponent,
     QuestionGroupContainerComponent,
+    EntryContentDirective,
+    BaseEntryComponent,
 
   ],
   imports: [
     CommonModule,
     LessonRoutingModule,
+    QuestionsModule,
     SharedModule
   ],
   providers: [

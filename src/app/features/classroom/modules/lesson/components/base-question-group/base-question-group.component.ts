@@ -15,34 +15,10 @@ import {QuestionService} from '../../services/state/question.service';
     </p>
   `,
 })
-export class BaseQuestionGroupComponent implements OnInit {
+export class BaseQuestionGroupComponent {
 
-  @Input() questionsData: QuestionData[];
-  @Input() startShowAmount = 5;
+  @Input() questionHandler: QuestionHandler;
 
-  questions: QuestionGroup;
-  questionHandler: QuestionHandler;
-  questionValidators: ValidatorFn | ValidatorFn[] | null = [correctValueValidator];
-
-  constructor(private utilsService: UtilsService,
-              private questionService: QuestionService) {
-  }
-
-  ngOnInit(): void {
-    this.questionHandler = new QuestionHandler(
-      this.utilsService,
-      this.questionsData,
-      this.startShowAmount,
-      this.questionValidators
-    );
-
-    this.questions = this.questionHandler.questionGroup;
-
-  }
-
-  addQuestion() {
-    const pickedQuestion = this.questionHandler.pickQuestions(1)[0];
-    this.questionHandler.addQuestion(pickedQuestion.id);
-  }
+  constructor() {}
 
 }

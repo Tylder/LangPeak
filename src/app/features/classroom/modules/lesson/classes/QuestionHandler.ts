@@ -3,12 +3,14 @@ import {ValidatorFn} from '@angular/forms';
 import {UtilsService} from '../../../../../shared/services/utils.service';
 import {QuestionGroup} from '../models/lesson/questionGroup';
 import {correctValueValidator, Question} from '../models/lesson/question';
+import {Type} from '@angular/core';
 
 /**
  * Handles question groups, takes an array of QuestionData and returns a QuestionGroup.
  * Controls how many questions to include in the array, remove and add questions.
  * Register the handler with the QuestionsService to make it available module wide.
  */
+
 
 export class QuestionHandler {
 

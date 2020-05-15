@@ -5,9 +5,15 @@
 <!--    {{partEntry | json}}-->
 <!--  </div>-->
 
-  <app-fill-blanks-group *ngFor="let partEntry of (lessonService.getPart$() | async)?.entries"
-                         [questionsData]="partEntry.questions"
-                         [startShowAmount]="5">
-  </app-fill-blanks-group>
+<!--  <app-fill-blanks-group *ngFor="let partEntry of (lessonService.getPart$() | async)?.entries"-->
+<!--                         [questionsData]="partEntry.questions"-->
+<!--                         [startShowAmount]="5">-->
+<!--  </app-fill-blanks-group>-->
+
+  <app-question-group-container *ngFor="let partEntry of (lessonService.getPart$() | async)?.entries"
+                             [questionsData]="partEntry.questions"
+                             [startShowAmount]="5">
+  </app-question-group-container>
+
 </div>
 
