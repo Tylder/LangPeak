@@ -1,8 +1,12 @@
-.fill-blank-text {
+.question-text {
   font-family: "Roboto Light", "Open Sans", Arial, sans-serif;
   font-size: 18px;
   font-weight: 200;
   letter-spacing: 0.5px;
+}
+
+.fill-blank-text {
+  @extend .question-text;
 
   margin-right: 5px;
 
@@ -30,4 +34,25 @@
   background-color: rgb(236, 249, 221);
   padding: 5px 8px 5px 8px;
 
+}
+
+.fill-blank-drop-down {
+  height: 49px;
+}
+
+.drag-drop-fill-blank-area {
+  @extend .fill-blank-input;
+
+  display: inline-block;
+  vertical-align: middle;
+  height: 23px;
+  background-color: #f6f6f6;
+  margin-bottom: 15px; // not sure why I need to do that to align everything but it works
+  margin-top: 12px;
+  //padding
+}
+
+.drag-drop-fill-area-invalid {
+  @extend .fill-blank-valid-box;
+  background-color: rgba(255, 10, 27, 0.38);
 }

@@ -1,0 +1,13 @@
+<div>
+
+  <ng-container *ngFor="let question of questions">
+
+    <span  *ngIf="question.data.textBefore as textBefore" class="fill-blank-text">{{textBefore}}</span>
+    <app-drag-drop-blanks-input [question]="question.question"></app-drag-drop-blanks-input>
+<!--    <app-fill-blank-text [question]="question.question"></app-fill-blank-text>-->
+    <span  *ngIf="question.data.textAfter as textAfter" class="fill-blank-text">{{textAfter}}</span>
+
+  </ng-container>
+
+</div>
+

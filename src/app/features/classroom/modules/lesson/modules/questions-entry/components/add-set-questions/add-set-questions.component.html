@@ -1,0 +1,13 @@
+<!--<button mat-icon-button color="primary" [appLongClick]="500" (click)="this.addQuestion.emit()">-->
+<button mat-icon-button color="primary"
+        [appLongClick]="500"
+        (longClick)="openSetQuestionAmountMenu()"
+        (click)="addQuestion.emit()">
+  <mat-icon matTooltip="Add Question to Group">add_box</mat-icon>
+  <div [matMenuTriggerFor]="menu"></div>
+</button>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item *ngFor="let index of questionRange" (click)="setQuestionAmount.emit(index)">{{index}}</button>
+</mat-menu>
+

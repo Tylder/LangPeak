@@ -18,6 +18,7 @@ import {AngularFireAnalyticsModule} from '@angular/fire/analytics';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {BaseMockHttpService} from './services/base-mock-http.service';
 import {UtilsService} from './services/utils.service';
+import {LongClickDirective} from './directives/long-click.directive';
 
 
 
@@ -25,7 +26,7 @@ import {UtilsService} from './services/utils.service';
   declarations: [
     ClickableDirective,
     IsSmallDirective,
-
+    LongClickDirective,
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -53,7 +54,7 @@ import {UtilsService} from './services/utils.service';
     NgxSpinnerModule,
     AngularResizedEventModule,
     ClickableDirective,
-
+    LongClickDirective
   ],
   providers: [UtilsService]
 })

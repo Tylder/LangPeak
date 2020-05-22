@@ -1,0 +1,12 @@
+<!--<input class="fill-blank-input" *ngIf="question.invalid" [formControl]="question" [appInputBlankText]="question.data.correctValue.length">-->
+
+<mat-form-field class="fill-blank-drop-down" *ngIf="question.invalid" [appInputBlankText]="alternativesMaxLength" >
+<!--  <mat-label>Favorite food</mat-label>-->
+  <mat-select [formControl]="question">
+    <mat-option *ngFor="let alternative of usedAlternatives" [value]="alternative">
+      {{alternative}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<app-fill-blank-valid *ngIf="question.valid" [text]="question.data.correctValue"></app-fill-blank-valid>

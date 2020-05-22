@@ -1,0 +1,10 @@
+::ng-deep .mat-menu-panel {
+  width: 80px!important;
+  min-width: unset!important;
+}
+.mat-menu-item {
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-right: 0;
+}

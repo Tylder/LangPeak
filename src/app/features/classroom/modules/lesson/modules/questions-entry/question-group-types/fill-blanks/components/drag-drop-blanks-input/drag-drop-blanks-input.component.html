@@ -1,0 +1,19 @@
+<!--<input class="fill-blank-input" *ngIf="question.invalid" [formControl]="question" [appInputBlankText]="question.data.correctValue.length">-->
+<cdk-drop-list *ngIf="question.invalid" [appInputBlankText]="question.data.correctValue.length" [useMinWidth]="true"
+      [id]="question.data.id"
+      [cdkDropListData]="question"
+      class="drag-drop-fill-blank-area"
+      [ngClass]="{'drag-drop-fill-area-invalid': question.invalid && question.dirty && question.value !== null}"
+      cdkDropList
+      (cdkDropListDropped)="itemDrop($event)"
+>
+  <div cdkDrag appClickable [cdkDragDisabled]="this.question.pristine">
+    <span>{{question.value}}</span>
+  </div>
+
+</cdk-drop-list>
+
+<!--{{question.previousValue}}-->
+<!--{{question.hasPreviousValue()}}-->
+
+<app-fill-blank-valid *ngIf="question.valid" [text]="question.data.correctValue"></app-fill-blank-valid>

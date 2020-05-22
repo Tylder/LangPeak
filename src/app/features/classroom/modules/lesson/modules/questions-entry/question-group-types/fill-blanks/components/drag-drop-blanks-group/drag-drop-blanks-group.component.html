@@ -1,0 +1,23 @@
+<div cdkDropListGroup>
+  <cdk-drop-list
+       class="drag-drop-park"
+       id="dragAndDropPark"
+       [cdkDropListData]="(answersInPark$ | async)"
+       (cdkDropListDropped)="questionDragBackToParkArea($event)"
+       fxLayout="row wrap"
+  >
+    <div cdkDrag class="drag-drop-item mat-elevation-z1"  *ngFor="let alt of (answersInPark$ | async); let i = index">
+      <span class="question-text">{{alt.answer}}</span>
+      <!--    {{alt.questionId}}-->
+    </div>
+  </cdk-drop-list>
+
+  <div *ngFor="let questionRow of data.questionHandler.questionGroup.getQuestionsAndGroups(); let i = index" fxLayout="row" fxLayoutAlign=" center" class="row">
+    <app-question-index [question]="questionRow" [index]="i" [questionGroup]="data.questionHandler.questionGroup"></app-question-index>
+  <!--  <app-fill-blanks-row  [question]="questionRow"></app-fill-blanks-row>-->
+    <app-drag-drop-blanks-row [question]="questionRow"></app-drag-drop-blanks-row>
+  <!--  <div [id]="questionRow.data.id" cdkDropList (cdkDropListDropped)="itemDrop($event)" style="height: 30px; width: 200px; background-color: antiquewhite; margin-bottom: 10px"></div>-->
+  </div>
+</div>
+<!--[cdkDropListData]="alternativesInPark"-->
+<!--[cdkDropListConnectedTo]="questionDnDAreas"-->

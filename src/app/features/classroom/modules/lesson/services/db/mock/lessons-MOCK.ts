@@ -1,6 +1,6 @@
 import * as faker from 'faker';
 import {Lesson, LessonPartFull, LessonPartEntryType, LessonPartEntryData} from '../../../models/db/lesson';
-import {FillBlankTextQuestion} from '../../../models/db/questionDataTypes';
+import {FillBlankTextQuestion} from '../../../modules/questions-entry/models/questionDataTypes';
 
 const questions: FillBlankTextQuestion[] = [];
 
@@ -46,16 +46,26 @@ for (let i = 0; i < 20; i++) {
   }
 }
 
+const partEntryText: LessonPartEntryData = {
+  type: LessonPartEntryType.TEXT,
+  isQuestionType: false,
+  data: {
+    text: 'TEST TEXT'
+  }
+};
+
 const partEntryQuestionGroup: LessonPartEntryData = {
   type: LessonPartEntryType.FILL_BLANKS,
   isQuestionType: true,
   questions
 };
 
+
+
 const lessonPart: LessonPartFull = {
   id: faker.random.uuid(),
   title: faker.lorem.sentence(),
-  entries: [partEntryQuestionGroup],
+  entries: [partEntryText, partEntryQuestionGroup],
   dbRef: 'sdssd'
 };
 

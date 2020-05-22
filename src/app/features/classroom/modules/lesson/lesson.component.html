@@ -6,14 +6,27 @@
 <!--  </div>-->
 
 <!--  <app-fill-blanks-group *ngFor="let partEntry of (lessonService.getPart$() | async)?.entries"-->
-<!--                         [questionsData]="partEntry.questions"-->
+<!--                         [questionsData]="partEntry.questions-entry"-->
 <!--                         [startShowAmount]="5">-->
 <!--  </app-fill-blanks-group>-->
 
-  <app-question-group-container *ngFor="let partEntry of (lessonService.getPart$() | async)?.entries"
-                             [questionsData]="partEntry.questions"
-                             [startShowAmount]="5">
-  </app-question-group-container>
+  <div *ngFor="let partEntry of (lessonService.getPart$() | async)?.entries">
+    <div *ngIf="partEntry.type === 'text'">
+      {{partEntry.data.text}}
+    </div>
+
+    <app-question-group-entry *ngIf="partEntry.type === 'fillBlanks'"
+                              [data]="partEntry.questions"
+                              [startShowAmount]="1">
+    </app-question-group-entry>
+  </div>
+
+
+
+
+
+
+
 
 </div>
 

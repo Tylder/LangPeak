@@ -1,0 +1,6 @@
+<div *ngFor="let questionRow of data.questionHandler.questionGroup.getQuestionsAndGroups(); let i = index" fxLayout="row" fxLayoutAlign=" center" class="row">
+  <app-question-index [question]="questionRow" [index]="i" [questionGroup]="data.questionHandler.questionGroup"></app-question-index>
+<!--  <p>{{questionRow.data | json}}</p>-->
+  <app-drop-down-blanks-row [question]="questionRow"></app-drop-down-blanks-row>
+<!--  <app-fill-blanks-row  [question]="questionRow"></app-fill-blanks-row>-->
+</div>

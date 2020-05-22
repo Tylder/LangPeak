@@ -17,13 +17,14 @@ import {DeviceDetectorService} from 'ngx-device-detector';
 import {RtcTestdataComponent} from './components/rtc-testdata/rtc-testdata.component';
 import {CoreModule} from './core/core.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { LongClickDirective } from './shared/directives/long-click.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     RtcTestComponent,
     RtcTest2Component,
-    RtcTestdataComponent
+    RtcTestdataComponent,
   ],
   imports: [
     BrowserAnimationsModule,
