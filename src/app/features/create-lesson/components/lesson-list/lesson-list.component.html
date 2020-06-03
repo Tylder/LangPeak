@@ -1,0 +1,48 @@
+
+<table mat-table matSort [dataSource]="dataSource" class="table-box">
+  <!-- Doctor Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <td mat-cell *matCellDef="let row"> {{row.title}} </td>
+    <!--      <td mat-cell *matCellDef="let row"> Dr. {{row.doctor}} </td>-->
+  </ng-container>
+
+  <!-- Patient Column -->
+  <ng-container matColumnDef="createdDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</th>
+    <td mat-cell *matCellDef="let row"> {{row.createdDate | date}} </td>
+  </ng-container>
+
+  <!-- Invoice Column -->
+  <ng-container matColumnDef="modifiedDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Modified Date</th>
+    <td mat-cell *matCellDef="let row"> {{row.modifiedDate | date}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+    <td mat-cell *matCellDef="let row">
+    <button mat-icon-button [routerLink]="['edit/', row.id]"><mat-icon>edit</mat-icon></button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="fullDisplayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: fullDisplayedColumns;">
+  </tr>
+</table>
+
+<mat-paginator [pageSizeOptions]="[10, 25, 50]" ></mat-paginator>
+
+<!--{{(data$ | async) | json}}-->
+
+
+<!--<ul>-->
+<!--  <li *ngFor="let lesson of data$ | async">-->
+<!--    <h3>{{lesson.name}}</h3>-->
+<!--    <h3>{{lesson.createdDate}}</h3>-->
+<!--    <h3>{{lesson.id}}</h3>-->
+<!--  </li>-->
+<!--</ul>-->
+<!--<br>-->
+
+

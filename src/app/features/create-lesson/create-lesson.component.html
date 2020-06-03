@@ -1,0 +1,38 @@
+
+<mat-drawer-container  style="height: 100vh; width: 100%;" [hasBackdrop]="(isMobile$ | async) ? 'true' : 'false'" autosize>
+  <mat-drawer [mode]="(isMobile$ | async) ? 'over' : 'side'"
+              [opened]="(isMobile$ | async) && (sidebarService.isExpanded$ | async) || !(isMobile$ | async)"
+              [autoFocus]=false>
+    <app-navigator-side-bar-loader></app-navigator-side-bar-loader>
+<!--    <router-outlet name="leftSideBar"></router-outlet>-->
+  </mat-drawer>
+  <mat-drawer-content fxLayout="column" fxLayoutAlign=" center">
+
+    <mat-toolbar fxFlex="40px" fxLayout="row" fxLayoutAlign="space-between center">
+      <!--  LEFT SIDE-->
+      <div>
+        <button mat-icon-button appClickable (click)="sidebarService.toggleIsFixed()" matTooltip="Expand Sidebar">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>App</span>
+      </div>
+      <!--  RIGHT SIDE-->
+      <div>
+        <span>Other Stuff on the side</span>
+      </div>
+    </mat-toolbar>
+
+
+    <div class="main-content">
+
+      <router-outlet></router-outlet>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <span>2020 LangPeak</span>
+    </div>
+
+    <!--        <app-footer></app-footer>-->
+  </mat-drawer-content>
+
+</mat-drawer-container>

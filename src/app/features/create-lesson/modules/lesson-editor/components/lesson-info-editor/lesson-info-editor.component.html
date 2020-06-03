@@ -1,0 +1,15 @@
+<div>
+  <form [formGroup]="lessonForm" *ngIf="lesson2Service.lesson$ | async">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput required formControlName="title">
+      <mat-error *ngIf="lessonForm.controls.title.invalid">Title Required</mat-error>
+    </mat-form-field>
+  </form>
+
+  <div fxLayout="row" fxLayoutAlign=" center">
+
+    <button fxFlex mat-stroked-button color="warn" (click)="reset()">Reset</button>
+    <button fxFlex mat-stroked-button color="primary"  [disabled]="!lessonForm.valid" (click)="updateLesson()">Add</button>
+  </div>
+</div>

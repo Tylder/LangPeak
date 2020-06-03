@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {LessonService} from './services/db/lesson.service';
+import {Component, ComponentFactoryResolver, OnInit} from '@angular/core';
+import {LessonService} from '../../../../shared/services/lesson.service';
+
 
 @Component({
   selector: 'app-lesson',
   templateUrl: './lesson.component.html',
   styleUrls: ['./lesson.component.scss']
 })
+
 export class LessonComponent implements OnInit {
 
   constructor(public lessonService: LessonService) {

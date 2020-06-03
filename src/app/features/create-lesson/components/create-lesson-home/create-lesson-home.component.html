@@ -1,0 +1,7 @@
+<app-lesson-list></app-lesson-list>
+<form [formGroup]="lessonForm">
+  <mat-form-field>
+        <input matInput formControlName="title" placeholder="Lesson Title">
+  </mat-form-field>
+</form>
+<button mat-stroked-button (click)="createLesson()" [disabled]="lessonForm.invalid">Add Lesson</button>

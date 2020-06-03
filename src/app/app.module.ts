@@ -18,6 +18,10 @@ import {RtcTestdataComponent} from './components/rtc-testdata/rtc-testdata.compo
 import {CoreModule} from './core/core.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { LongClickDirective } from './shared/directives/long-click.directive';
+import { MixinTestComponent } from './components/mixin-test/mixin-test.component';
+import { MixinTest2Component } from './components/mixin-test2/mixin-test2.component';
+import { LayoutTest2Component } from './components/layout-test/layout-test2.component';
+import {LayoutTestComponent} from './components/layout-test2/layout-test.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +29,14 @@ import { LongClickDirective } from './shared/directives/long-click.directive';
     RtcTestComponent,
     RtcTest2Component,
     RtcTestdataComponent,
+    MixinTestComponent,
+    MixinTest2Component,
+    LayoutTestComponent,
+    LayoutTest2Component,
   ],
   imports: [
     BrowserAnimationsModule,
-    SharedModule,
+    SharedModule.forRoot(),
     CoreModule,
     AppRoutingModule,
 

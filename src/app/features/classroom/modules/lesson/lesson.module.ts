@@ -2,26 +2,24 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {LessonRoutingModule} from './lesson-routing.module';
 import { LessonComponent } from './lesson.component';
-import {LessonService} from './services/db/lesson.service';
 import {SharedModule} from '../../../../shared/shared.module';
-import { EntryContentDirective } from './modules/shared-entry/directives/entry-content.directive';
-import { BaseEntryComponent } from './modules/shared-entry/components/base-entry/base-entry.component';
-import {QuestionsEntryModule} from './modules/questions-entry/questions-entry.module';
+import {LessonEntriesDisplayModule} from '../../../lesson-entries/display-entries/lesson-entries-display.module';
+import {PartEntryComponent} from './components/part-entry/part-entry.component';
 
 
 @NgModule({
   declarations: [
     LessonComponent,
+    PartEntryComponent,
   ],
   imports: [
     CommonModule,
     LessonRoutingModule,
-    QuestionsEntryModule,
+
+    LessonEntriesDisplayModule,
     SharedModule,
   ],
   providers: [
-    LessonService,
-
   ],
   exports: [
   ]

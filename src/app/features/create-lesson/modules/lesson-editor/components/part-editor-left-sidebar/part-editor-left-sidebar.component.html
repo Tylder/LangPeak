@@ -1,0 +1,19 @@
+<div [ngStyle]="{'width.px': data.widthPx}">
+
+  <h1 appClickable [routerLink]="['edit', (lesson2Service.lesson$ | async)?.id]">Lesson Editor</h1>
+
+
+  <div>
+    <div fxLayout="row" fxLayoutAlign=" center" class="title-row">
+      <h3 class="title-text">Title:</h3>
+      <h3 class="title-label">{{(lesson2Service.lesson$ | async)?.title}}</h3>
+    </div>
+    <div fxLayout="row" fxLayoutAlign=" center" class="title-row">
+      <h3 class="title-text">Date Created:</h3>
+      <h3 class="title-label">{{(lesson2Service.lesson$ | async)?.createdDate | date}}</h3>
+    </div>
+
+  </div>
+
+  <app-side-bar-part-list></app-side-bar-part-list>
+</div>

@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
+import {ModuleWithProviders, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {MaterialModule} from './material.module';
-import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {CdkTableModule} from '@angular/cdk/table';
@@ -16,9 +15,14 @@ import {environment} from '../../environments/environment';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireAnalyticsModule} from '@angular/fire/analytics';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {BaseMockHttpService} from './services/base-mock-http.service';
 import {UtilsService} from './services/utils.service';
 import {LongClickDirective} from './directives/long-click.directive';
+import {DynamicContentDirective} from './directives/dynamic-content.directive';
+import {NavigatorSideBarLoaderComponent} from './components/navigator-side-bar-loader/navigator-side-bar-loader.component';
+import {SidebarService} from './services/sidebar.service';
+import {LessonService} from './services/lesson.service';
+import {Lesson2Service} from './services/lesson2.service';
+import {BaseTableFsComponent} from './components/base-table-fs.component';
 
 
 
@@ -27,6 +31,9 @@ import {LongClickDirective} from './directives/long-click.directive';
     ClickableDirective,
     IsSmallDirective,
     LongClickDirective,
+    DynamicContentDirective,
+    NavigatorSideBarLoaderComponent,
+    BaseTableFsComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -54,8 +61,17 @@ import {LongClickDirective} from './directives/long-click.directive';
     NgxSpinnerModule,
     AngularResizedEventModule,
     ClickableDirective,
-    LongClickDirective
+    LongClickDirective,
+    DynamicContentDirective,
+    NavigatorSideBarLoaderComponent,
   ],
-  providers: [UtilsService]
+
 })
-export class SharedModule { }
+export class SharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: [UtilsService, SidebarService, LessonService, Lesson2Service]
+    };
+  }
+}

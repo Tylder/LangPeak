@@ -1,0 +1,11 @@
+<div fxLayout="row" fxLayoutAlign="space-between " style="min-height: 100%;">
+
+  <div>
+    <h1>Lesson Editor</h1>
+    <h2>{{(lesson2Service.lesson$ | async)?.title}}</h2>
+    <p>{{(lesson2Service.lesson$ | async) | json}}</p>
+    <!--{{(lesson2Service.lesson$ | async) | json}}-->
+    <router-outlet></router-outlet>
+  </div>
+  <app-part-editor-right-side-bar></app-part-editor-right-side-bar>
+</div>

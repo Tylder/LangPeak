@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {FillBlanksGroupComponent} from './modules/questions-entry/question-group-types/fill-blanks/components/fill-blanks-group/fill-blanks-group.component';
+import {FillBlanksGroupComponent} from '../../../lesson-entries/display-entries/questions-entry/question-group-types/fill-blanks/components/fill-blanks-group/fill-blanks-group.component';
 import {LessonComponent} from './lesson.component';
 
 

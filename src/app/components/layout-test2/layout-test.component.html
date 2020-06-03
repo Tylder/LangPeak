@@ -1,0 +1,53 @@
+<!--<div class="full-width-center">-->
+
+
+  <div fxLayout="column" style="height: 100vh; width: 100%;" >
+
+    <mat-toolbar fxFlex="40px" fxLayout="row" fxLayoutAlign="space-between center">
+      <!--  LEFT SIDE-->
+      <div>
+        <button mat-icon-button appClickable (click)="sidebarService.toggleIsFixed()" matTooltip="Expand Sidebar">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>App</span>
+      </div>
+      <!--  RIGHT SIDE-->
+      <div>
+        <span>Other Stuff on the side</span>
+      </div>
+    </mat-toolbar>
+
+
+  <!-- BETWEEN TOP BAR AND FOOTER-->
+    <div fxFlex>
+      <mat-drawer-container fxFlex="calc(100% - (40px))" fxFlexFill [hasBackdrop]="(isMobile$ | async) ? 'true' : 'false'" autosize>
+        <mat-drawer [mode]="(isMobile$ | async) ? 'over' : 'side'"
+                    [opened]="(isMobile$ | async) && (sidebarService.isExpanded$ | async) || !(isMobile$ | async)"
+                    [autoFocus]=false>
+  <!--        <app-navigator-side-bar-loader></app-navigator-side-bar-loader>-->
+          <div style="width: 200px;">
+            <mat-list-item>1</mat-list-item>
+            <mat-list-item>2</mat-list-item>
+            <mat-list-item>3</mat-list-item>
+          </div>
+        </mat-drawer>
+        <mat-drawer-content fxLayout="column" fxLayoutAlign="space-between center">
+          <div style="width: 100%; max-width: 1256px; background-color: bisque">
+          <!--    <div>-->
+  <!--        <router-outlet></router-outlet>-->
+          <!--    </div>-->
+
+            <span>STUFF</span>
+          </div>
+          <!--        <app-footer></app-footer>-->
+        </mat-drawer-content>
+
+      </mat-drawer-container>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <span>App Copyright</span>
+    </div>
+
+  </div>
+<!--</div>-->

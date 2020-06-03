@@ -1,0 +1,21 @@
+<p>part-editor works!</p>
+<div *ngIf="(lesson2Service.lessonPart$ | async) as part">
+
+  {{part | json}}
+
+  <app-entry-edit-loader *ngFor="let entry of part.entries" [data]="entry">
+
+    <!--    <div *ngIf="partEntry.type === 'text'">-->
+    <!--      {{partEntry.data.text}}-->
+    <!--    </div>-->
+
+    <!--    <app-question-group-entry *ngIf="partEntry.type === 'fillBlanks'"-->
+    <!--                              [data]="partEntry.questions"-->
+    <!--                              [startShowAmount]="1">-->
+    <!--    </app-question-group-entry>-->
+  </app-entry-edit-loader>
+
+</div>
+
+
+

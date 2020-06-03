@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {QuestionGroup} from '../../modules/questions-entry/models/questionGroup';
-import {Question} from '../../modules/questions-entry/models/question';
-import {QuestionHandler} from '../../modules/questions-entry/classes/questionHandler';
+import {QuestionGroup} from '../../../../../lesson-entries/display-entries/questions-entry/models/questionGroup';
+import {Question} from '../../../../../lesson-entries/display-entries/questions-entry/models/question';
+import {QuestionHandler} from '../../../../../lesson-entries/display-entries/questions-entry/classes/questionHandler';
 
 @Injectable({
   providedIn: 'root'

@@ -1,32 +1,34 @@
 
-<div class="lesson box">
+<div class="lesson">
+  <div class="box">
 
-<!--  <div *ngFor="let partEntry of (lessonService.getAll$() | async)[0]?.mainParts[0]?.entries">-->
-<!--    {{partEntry | json}}-->
-<!--  </div>-->
+  <!--  <div *ngFor="let partEntry of (lessonService.getAll$() | async)[0]?.mainParts[0]?.entries">-->
+  <!--    {{partEntry | json}}-->
+  <!--  </div>-->
 
-<!--  <app-fill-blanks-group *ngFor="let partEntry of (lessonService.getPart$() | async)?.entries"-->
-<!--                         [questionsData]="partEntry.questions-entry"-->
-<!--                         [startShowAmount]="5">-->
-<!--  </app-fill-blanks-group>-->
+  <!--  <app-fill-blanks-group *ngFor="let partEntry of (lessonService.getPart$() | async)?.entries"-->
+  <!--                         [questionsData]="partEntry.questions-entry"-->
+  <!--                         [startShowAmount]="5">-->
+  <!--  </app-fill-blanks-group>-->
 
-  <div *ngFor="let partEntry of (lessonService.getPart$() | async)?.entries">
-    <div *ngIf="partEntry.type === 'text'">
-      {{partEntry.data.text}}
-    </div>
+    <app-part-entry *ngFor="let partEntry of (lessonService.getPart$() | async)?.entries" [data]="partEntry">
 
-    <app-question-group-entry *ngIf="partEntry.type === 'fillBlanks'"
-                              [data]="partEntry.questions"
-                              [startShowAmount]="1">
-    </app-question-group-entry>
+  <!--    <div *ngIf="partEntry.type === 'text'">-->
+  <!--      {{partEntry.data.text}}-->
+  <!--    </div>-->
+
+  <!--    <app-question-group-entry *ngIf="partEntry.type === 'fillBlanks'"-->
+  <!--                              [data]="partEntry.questions"-->
+  <!--                              [startShowAmount]="1">-->
+  <!--    </app-question-group-entry>-->
+    </app-part-entry>
+
+
+
+
+
+
+
+
   </div>
-
-
-
-
-
-
-
-
 </div>
-

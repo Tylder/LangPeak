@@ -1,0 +1,112 @@
+
+<div *ngIf="(lesson2Service.lessonPartsSeparated$ | async) as partsSeparated" cdkDropListGroup>
+
+<!--    MAIN PARTS-->
+  <cdk-drop-list [cdkDropListData]="partsSeparated[partTypes.MAIN]"
+                 (cdkDropListDropped)="drop($event)"
+                 id="main">
+
+    <div matRipple appClickable class="part-type-expander" fxLayout="row" fxLayoutAlign=" center" (click)="toggleExpand('main')">
+      <mat-icon *ngIf="partsLayout.mainExpanded === false">keyboard_arrow_right</mat-icon>
+      <mat-icon *ngIf="partsLayout.mainExpanded">keyboard_arrow_down</mat-icon>
+      <h2>Main</h2>
+    </div>
+    <div *ngIf="partsLayout.mainExpanded">
+
+      <div *ngFor="let part of partsSeparated[partTypes.MAIN]"
+           fxLayout="row" fxLayoutAlign=" center"
+           matRipple appClickable
+           cdkDrag
+           class="part-entry"
+           [routerLink]="['edit', this.lessonId, part.id]"
+           [routerLinkActive]="['part-active']"
+      >
+        <h3>{{part.title}}</h3>
+      </div>
+    </div>
+  </cdk-drop-list>
+
+  <div *ngIf="partsLayout.mainExpanded" matRipple appClickable
+       class="part-entry add-part"
+       fxLayout="row" fxLayoutAlign=" center"
+       (click)="addPart(partTypes.MAIN)">
+    <mat-icon>add</mat-icon>
+    <h3>Add Part</h3>
+  </div>
+
+  <mat-divider></mat-divider>
+
+<!--    PREP PARTS-->
+
+  <cdk-drop-list [cdkDropListData]="partsSeparated[partTypes.PREPARE]"
+                 (cdkDropListDropped)="drop($event)"
+                 id="prep">
+
+    <div matRipple appClickable class="part-type-expander" fxLayout="row" fxLayoutAlign=" center" (click)="toggleExpand('prep')">
+      <mat-icon *ngIf="partsLayout.prepExpanded === false">keyboard_arrow_right</mat-icon>
+      <mat-icon *ngIf="partsLayout.prepExpanded">keyboard_arrow_down</mat-icon>
+      <h2>Prepare</h2>
+    </div>
+    <div *ngIf="partsLayout.prepExpanded">
+
+      <div *ngFor="let part of partsSeparated[partTypes.PREPARE]"
+           fxLayout="row" fxLayoutAlign=" center"
+           matRipple appClickable
+           cdkDrag
+           class="part-entry"
+           [routerLink]="['edit', this.lessonId, part.id]"
+           [routerLinkActive]="['part-active']"
+      >
+        <h3>{{part.title}}</h3>
+      </div>
+    </div>
+  </cdk-drop-list>
+
+  <div *ngIf="partsLayout.prepExpanded" matRipple appClickable
+       class="part-entry add-part"
+       fxLayout="row" fxLayoutAlign=" center"
+       (click)="addPart(partTypes.PREPARE)">
+    <mat-icon>add</mat-icon>
+    <h3>Add Part</h3>
+  </div>
+
+
+  <mat-divider></mat-divider>
+
+<!--    HOMEWORK PARTS-->
+
+  <cdk-drop-list [cdkDropListData]="partsSeparated[partTypes.HOMEWORK]"
+                 (cdkDropListDropped)="drop($event)"
+                 id="homework">
+
+    <div matRipple appClickable class="part-type-expander" fxLayout="row" fxLayoutAlign=" center" (click)="toggleExpand('homework')">
+      <mat-icon *ngIf="partsLayout.homeworkExpanded === false">keyboard_arrow_right</mat-icon>
+      <mat-icon *ngIf="partsLayout.homeworkExpanded">keyboard_arrow_down</mat-icon>
+      <h2>Homework</h2>
+    </div>
+    <div *ngIf="partsLayout.homeworkExpanded">
+
+      <div *ngFor="let part of partsSeparated[partTypes.HOMEWORK]"
+           fxLayout="row" fxLayoutAlign=" center"
+           matRipple appClickable
+           cdkDrag
+           class="part-entry"
+           [routerLink]="['edit', this.lessonId, part.id]"
+           [routerLinkActive]="['part-active']"
+      >
+        <h3>{{part.title}}</h3>
+      </div>
+    </div>
+  </cdk-drop-list>
+
+  <div *ngIf="partsLayout.homeworkExpanded" matRipple appClickable
+       class="part-entry add-part"
+       fxLayout="row" fxLayoutAlign=" center"
+       (click)="addPart(partTypes.HOMEWORK)">
+    <mat-icon>add</mat-icon>
+    <h3>Add Part</h3>
+  </div>
+
+  <mat-divider></mat-divider>
+
+</div>
