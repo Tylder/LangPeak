@@ -1,0 +1,11 @@
+<ng-container *ngIf="!isEdit; else edit">
+  <app-fill-blank-edit-text [question]="question" [questionWords]="questionWords"></app-fill-blank-edit-text>
+</ng-container>
+
+<ng-template #edit>
+  <mat-card>
+    <app-fill-blank-edit-text [question]="question" [questionWords]="questionWords"></app-fill-blank-edit-text>
+    <app-fill-blanks-row-edit-area [question]="question" [questionWords]="questionWords"></app-fill-blanks-row-edit-area>
+  </mat-card>
+</ng-template>
+

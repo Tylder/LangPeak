@@ -1,13 +1,21 @@
-import {Directive, ElementRef} from '@angular/core';
+import {AfterViewInit, Directive, ElementRef, HostListener, Input, OnChanges, OnInit, Renderer2, SimpleChanges} from '@angular/core';
 
 @Directive({
   selector: '[appClickable]'
 })
-export class ClickableDirective {
+export class ClickableDirective implements OnChanges {
 
-  constructor(el: ElementRef) {
-    el.nativeElement.style.cursor = 'pointer';
-    el.nativeElement.style.outline = 0;
+  @Input('appClickable') isClickable: boolean;
+
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.isClickable === false) {
+      this.renderer.removeStyle(this.el.nativeElement, 'cursor');
+      this.renderer.removeStyle(this.el.nativeElement, 'outline');
+    } else {
+      this.renderer.setStyle(this.el.nativeElement, 'cursor', 'pointer');
+      this.renderer.setStyle(this.el.nativeElement, 'outline', 0);
+    }
   }
-
 }

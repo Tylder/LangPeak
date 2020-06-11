@@ -7,7 +7,7 @@ import {FillBlanksRowComponent} from './question-group-types/fill-blanks/compone
 import {FillBlankTextComponent} from './question-group-types/fill-blanks/components/fill-blank-text/fill-blank-text.component';
 import {BaseFillBlankComponent} from './question-group-types/fill-blanks/components/base-fill-blank/base-fill-blank.component';
 import {FillBlankValidComponent} from './question-group-types/fill-blanks/components/fill-blank-valid/fill-blank-valid.component';
-import {QuestionIndexComponent} from './components/question-index/question-index.component';
+import {QuestionIndexComponent} from '../../shared-entry/components/question-index/question-index.component';
 import {QuestionGroupEntryFillBlanksComponent} from './question-group-entry-fill-blanks.component';
 import {QuestionService} from '../../../classroom/modules/lesson/services/state/question.service';
 import {SharedModule} from '../../../../shared/shared.module';
@@ -33,7 +33,6 @@ import { DragDropBlanksInputComponent } from './question-group-types/fill-blanks
     FillBlankTextComponent,
     BaseFillBlankComponent,
     FillBlankValidComponent,
-    QuestionIndexComponent,
     QuestionGroupEntryFillBlanksComponent,
     DropDownBlanksGroupComponent,
     DropDownBlanksRowComponent,
@@ -43,7 +42,6 @@ import { DragDropBlanksInputComponent } from './question-group-types/fill-blanks
     AddSetQuestionsComponent,
     DragDropBlanksRowComponent,
     DragDropBlanksInputComponent,
-
   ],
   imports: [
     CommonModule,

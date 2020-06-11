@@ -9,4 +9,4 @@
   </mat-select>
 </mat-form-field>
 
-<app-fill-blank-valid *ngIf="question.valid" [text]="question.data.correctValue"></app-fill-blank-valid>
+<app-fill-blank-valid *ngIf="question.valid" [text]="question.data.correctValues[0]"></app-fill-blank-valid>

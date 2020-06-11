@@ -19,7 +19,7 @@ export class DropDownBlanksInputComponent extends BaseFillBlankComponent impleme
   ngOnInit(): void {
 
     this.usedAlternatives = Object.assign([], this.question.data.alternatives); // clone array
-    this.usedAlternatives.push(this.question.data.correctValue);
+    this.usedAlternatives.push(this.question.data.correctValues[0]); // add the correct value as an alt
     this.usedAlternatives = this.utilsService.shuffleArray(this.usedAlternatives);
 
     this.usedAlternatives.forEach((alt) => {

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {QuestionGroup} from '../../models/questionGroup';
-import {Question} from '../../models/question';
+import {QuestionGroup} from '../../../display-entries/questions-entry/models/questionGroup';
+import {Question} from '../../../display-entries/questions-entry/models/question';
 
 @Component({
   selector: 'app-question-index',

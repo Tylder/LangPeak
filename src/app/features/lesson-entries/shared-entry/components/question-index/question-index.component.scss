@@ -1,0 +1,34 @@
+.student {
+  margin-right: 15px;
+  color: lighten(black, 50);
+}
+
+.teacher {
+
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+
+  margin-right: 15px;
+
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+  border: #93ffa2 solid 1px;
+  //color: lighten(black, 50);
+
+}
+::ng-deep .mat-menu-panel {
+  width: 60px!important;
+  min-width: unset!important;
+}
+.mat-menu-item {
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-right: 0;
+  .mat-icon {
+    margin-right: 0;
+  }
+}
+

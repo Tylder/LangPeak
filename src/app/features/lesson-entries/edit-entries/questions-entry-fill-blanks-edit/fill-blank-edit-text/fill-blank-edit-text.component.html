@@ -1,0 +1,12 @@
+<ng-container *ngFor="let word of questionWords">
+    <span appClickable
+          class="fill-blank-text"
+          [ngClass]="{'blank-word': word.isBlank,
+          'word-selected': (fillBlanksEditService.selectedWords$ | async).includes(word)}"
+          (click)="selectWordAndQuestion(word)"
+    >{{word.text}}</span>
+
+</ng-container>
+
+
+<!--{{(questionWords) | json}}-->

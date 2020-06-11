@@ -1,0 +1,16 @@
+@import '~@angular/material/theming';
+
+.blank-word {
+  border-radius: 15px;
+  margin-right: 5px;
+  padding: 5px;
+  background-color: #e6ede5;
+}
+
+.word-selected {
+  @include mat-elevation(2);
+
+  padding: 5px;
+  color: gray;
+  border-radius: 15px;
+}

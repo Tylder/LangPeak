@@ -45,7 +45,7 @@ export class LessonInfoEditorComponent implements OnInit, OnDestroy {
     this.lesson2Service.lesson$.pipe(
       take(1),
       switchMap(lesson => {
-        return this.lesson2Service.updateLesson(this.lessonForm.value, lesson.id);
+        return this.lesson2Service.updateLesson$(this.lessonForm.value, lesson.id);
       })
     ).subscribe();
 

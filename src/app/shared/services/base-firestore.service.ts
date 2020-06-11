@@ -1,10 +1,10 @@
 import {combineLatest, from, Observable, of, throwError, zip} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {AngularFirestore, AngularFirestoreDocument, DocumentReference} from '@angular/fire/firestore';
+import {AngularFirestore, AngularFirestoreDocument, DocumentChangeType, DocumentReference} from '@angular/fire/firestore';
 import {CollectionReference, DocumentChangeAction, QueryFn} from '@angular/fire/firestore/interfaces';
-import {catchError, map, mergeMap, tap} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, take, tap} from 'rxjs/operators';
 import {AngularFirestoreCollection} from '@angular/fire/firestore/collection/collection';
-import {Db} from '../models/db';
+import {DbItem, DbItemFullWithIndex} from '../models/dbItem';
 import {FirebaseError} from 'firebase';
 import { firestore as fs } from 'firebase';
 import {moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
@@ -44,7 +44,7 @@ export class BaseFirestoreService<T> {
   }
 
 
-  listenForDoc$<A extends Db>(doc: AngularFirestoreDocument): Observable<A> {
+  listenForDoc$<A extends DbItem>(doc: AngularFirestoreDocument): Observable<A> {
     /**
      * Returns an observable that will emit whenever the ref changes in any way.
      * Also adds the id and ref to the object.
@@ -68,13 +68,21 @@ export class BaseFirestoreService<T> {
     return this.handleRes$<A>(res$);
   }
 
-  listenForCollection$<A extends Db>(collection: AngularFirestoreCollection): Observable<A[]> {
+  listenForCollection$<A extends DbItem>(collection: AngularFirestoreCollection,
+                                         listenToTypes: DocumentChangeType[] = ['added', 'removed', 'modified']): Observable<A[]> {
     /**
      * Returns an observable that will emit whenever the ref changes in any way.
      * Also adds the id and ref to the object.
      */
     const res$ = collection.snapshotChanges().pipe(
+
+      map((actions) => actions.filter(a => {
+        return listenToTypes.includes(a.type);
+      })),
       map((actions) => actions.map(a => {
+
+        // console.log(a.type, a);
+
         const data = a.payload.doc.data() as A;
         const id = a.payload.doc.id;
         const docRef = a.payload.doc.ref;
@@ -104,7 +112,7 @@ export class BaseFirestoreService<T> {
     return {...data, createdBy};
   }
 
-  convertTimestampToDate<A extends Db>(data: A): A {
+  convertTimestampToDate<A extends DbItem>(data: A): A {
     if (data.hasOwnProperty('createdDate')) {
       data.createdDate = data.createdDate as fs.Timestamp;
       data.createdDate = data.createdDate.toDate();
@@ -151,6 +159,16 @@ export class BaseFirestoreService<T> {
     );
   }
 
+  // addToBatch$<A>(data: A, collection: AngularFirestoreCollection, id?: string): fs.WriteBatch {
+  //   const batch = this.firestore.firestore.batch();
+  //
+  //   data = this.addCreatedDate(data);
+  //   data = this.addModifiedDate(data);
+  //
+  //   if (id !== undefined) { batch. }
+  //   else { res$ = from(collection.add(data)); }
+  // }
+
   update$<A>(data: A, doc: AngularFirestoreDocument): Observable<boolean> {
     /**
      * transforms the promise to an observable
@@ -191,6 +209,18 @@ export class BaseFirestoreService<T> {
     );
   }
 
+  updateDocByPath$<A>(path: string, data: A): Observable<any> {
+    const doc = this.firestore.doc(path);
+    return this.update$(data, doc);
+  }
+
+  deleteDocByPath(path: string): Observable<any> {
+    const doc = this.firestore.doc(path);
+    return this.delete$(doc);
+  }
+
+
+
   handleRes$<A>(result$: Observable<A>, successMessage?: string, errorMessage?: string): Observable<A> {
     return result$.pipe(
       // tap(val => console.log(val)),
@@ -207,7 +237,10 @@ export class BaseFirestoreService<T> {
     );
   }
 
-  getBatchFromMoveItemInIndexedDocs<A extends Db>(array: Array<A>, fromIndex: number, toIndex: number, useCopy = false) {
+  getBatchFromMoveItemInIndexedDocs<A extends DbItemFullWithIndex>(array: Array<A>,
+                                                                   fromIndex: number,
+                                                                   toIndex: number,
+                                                                   useCopy = false) {
     /**
      * Moved item within the same list so we need to update the index of all items in the list;
      * Use a copy if you dont wish to update the given array, for example when you watch to just listen for the change of the db..
@@ -228,6 +261,9 @@ export class BaseFirestoreService<T> {
     } else {
       usedArray = array;
     }
+
+    console.log(usedArray, array);
+
     moveItemInArray(usedArray, fromIndex, toIndex);
 
     const listSliceToUpdate: A[] = usedArray.slice(lowestIndex);
@@ -242,12 +278,12 @@ export class BaseFirestoreService<T> {
     return batch;
   }
 
-  getBatchFromTransferItemInIndexedDocs<A extends Db>(previousArray: A[],
-                                                      currentArray: A[],
-                                                      previousIndex: number,
-                                                      currentIndex: number,
-                                                      additionalDataUpdateOnMovedItem?: {[key: string]: any},
-                                                      useCopy = false): fs.WriteBatch {
+  getBatchFromTransferItemInIndexedDocs<A extends DbItemFullWithIndex>(previousArray: A[],
+                                                                       currentArray: A[],
+                                                                       previousIndex: number,
+                                                                       currentIndex: number,
+                                                                       additionalDataUpdateOnMovedItem?: {[key: string]: any},
+                                                                       useCopy = false): fs.WriteBatch {
 
     /**
      * Used mainly for drag and drop scenarios where we drag an item from one array to another and the the docs have an index attribute.
@@ -266,7 +302,6 @@ export class BaseFirestoreService<T> {
     }
 
     transferArrayItem(usedPreviousArray, usedCurrentArray, previousIndex, currentIndex);
-
 
     if (additionalDataUpdateOnMovedItem !== undefined) {
       const movedItem = currentArray[currentIndex];
@@ -293,13 +328,43 @@ export class BaseFirestoreService<T> {
     return batch;
   }
 
-  listenForCollectionRecursively<A extends Db>(path: string, collectionKey: string): Observable<any> {
+  getBatchFromDeleteItemInIndexedDocs<A extends DbItemFullWithIndex>(array: A[]): fs.WriteBatch {
+
+    /**
+     * Run this on collections with a fixed order using an index: number attribute;
+     * This will update that index with the index in the collectionData, so it should be sorted by index first.
+     * Basically needs to be run after a delete
+     */
+
+    const batch = this.firestore.firestore.batch();
+
+    array.forEach((item, index) => {
+      if (item.index !== index) {
+        const ref = this.getRefFromPath(item.path) as DocumentReference;
+        batch.update(ref, {index});
+      }
+    });
+
+    return batch;
+  }
+
+  updateIndexAfterDeleteInIndexedDocs<A extends DbItemFullWithIndex>(array: A[]): Observable<any> {
+    const batch = this.getBatchFromDeleteItemInIndexedDocs(array);
+    return this.batchCommit(batch);
+  }
+
+  listenForCollectionRecursively<A extends DbItem>(path: string, collectionKey: string, orderKey?: string): Observable<any> {
 
     /**
      * Listens for collections inside collections with the same name to an unlimited depth and returns all of it as an array.
      */
+    let ref;
 
-    const ref = this.firestore.collection(path);
+    if (orderKey != null) {
+      ref = this.firestore.collection(path, r => r.orderBy(orderKey));
+    } else {
+      ref = this.firestore.collection(path);
+    }
 
     return this.listenForCollection$<A>(ref).pipe(
       mergeMap(items => {
@@ -314,7 +379,7 @@ export class BaseFirestoreService<T> {
 
           const nextLevelPath = this.firestore.doc(item.path).collection(collectionKey).ref.path;  // one level deeper
 
-          const nextLevelItems$ = this.listenForCollectionRecursively(nextLevelPath, collectionKey).pipe(
+          const nextLevelItems$ = this.listenForCollectionRecursively(nextLevelPath, collectionKey, orderKey).pipe(
             map((nextLevelItems: A[]) => {
               if (nextLevelItems.length > 0) { return {...item, [collectionKey]: nextLevelItems } as A; }
               else {  return {...item} as A; }  // dont include an empty array

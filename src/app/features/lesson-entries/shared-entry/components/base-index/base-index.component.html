@@ -1,0 +1,21 @@
+<!--TODO USE FOR STUDENT-->
+<!--<span class="student">{{index + 1}}</span> -->
+
+<div matRipple appClickable [matMenuTriggerFor]="menu" class="teacher mat-elevation-z2" fxLayout="row" fxLayoutAlign="center center">
+  <span>{{index + 1}}</span>
+</div>
+<mat-menu #menu="matMenu" class="menu">
+
+  <ng-content></ng-content>
+<!--  -->
+<!--  <button mat-menu-item matTooltip="Reset" matTooltipPosition="right" (click)="reset()">-->
+<!--    <mat-icon>restore</mat-icon>-->
+<!--  </button>-->
+<!--  <button mat-menu-item matTooltip="Fill Correct Value" matTooltipPosition="right" (click)="fillCorrectValue()">-->
+<!--    <mat-icon>done</mat-icon>-->
+<!--  </button>-->
+<!--  <button mat-menu-item matTooltip="Delete" matTooltipPosition="right" (click)="delete()">-->
+<!--    <mat-icon color="warn">delete</mat-icon>-->
+<!--  </button>-->
+</mat-menu>
+<!--<button mat-mini-fab>Test</button>-->

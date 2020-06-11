@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {SharedModule} from '../../../../shared/shared.module';
 import {SharedEntryModule} from '../../shared-entry/shared-entry.module';
 import { TextEntryEditComponent } from './text-entry-edit.component';
+import {QuillEditAndViewModule} from '../../shared-entry/quill-lesson-editor/quill-edit-and-view.module';
 
 
 
@@ -11,7 +12,7 @@ import { TextEntryEditComponent } from './text-entry-edit.component';
   imports: [
     CommonModule,
     SharedModule,
-    SharedEntryModule
+    SharedEntryModule,
   ]
 })
 export class TextEntryEditModule { }

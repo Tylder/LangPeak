@@ -9,6 +9,7 @@ import {LessonEntriesDisplayModule} from '../../../lesson-entries/display-entrie
 import {LessonEditorRoutingModule} from './lesson-editor-routing.module';
 import {LessonEditorComponent} from './lesson-editor.component';
 import {PartEditorModule} from './modules/part-editor/part-editor.module';
+import {QuillEditAndViewModule} from '../../../lesson-entries/shared-entry/quill-lesson-editor/quill-edit-and-view.module';
 
 
 
@@ -23,6 +24,7 @@ import {PartEditorModule} from './modules/part-editor/part-editor.module';
   imports: [
     CommonModule,
     SharedModule,
+
     LessonEditorRoutingModule,
     LessonEntriesDisplayModule,
     PartEditorModule,

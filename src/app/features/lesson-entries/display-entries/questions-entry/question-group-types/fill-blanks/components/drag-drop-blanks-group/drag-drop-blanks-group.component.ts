@@ -234,10 +234,13 @@ export class DragDropBlanksGroupComponent extends BaseQuestionGroupContentCompon
 
 
   getAlternativesToShowFromQuestion(question: Question): string[] {
-    const alternatives = [question.data.correctValue];
+    const alternatives = [question.data.correctValues[0]]; // set the correctValue as the first alt
+
+    if (!('alternatives' in question.data)) { return alternatives; } //  no alternatives set
 
     for (let i = 0; i < 5; i++) {
-      // console.log(i);
+      // console.log(i)
+
       if (Math.random() < 0.5) { //  some chance to show 1 more alt
         const altsRemaining = question.data.alternatives.filter(item => alternatives.indexOf(item) < 0);
         const randomALt = this.utilsService.sampleArray(altsRemaining);

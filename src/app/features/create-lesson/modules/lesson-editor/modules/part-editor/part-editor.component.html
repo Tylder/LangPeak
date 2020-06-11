@@ -1,21 +1,40 @@
-<p>part-editor works!</p>
-<div *ngIf="(lesson2Service.lessonPart$ | async) as part">
 
-  {{part | json}}
+<div *ngIf="(lesson2Service.lessonPart$ | async) as part"
+     cdkDropList
+     (cdkDropListDropped)="drop($event)"
+     class="drag-list">
 
-  <app-entry-edit-loader *ngFor="let entry of part.entries" [data]="entry">
+  <div *ngFor="let entry of part?.entries; trackBy: trackEntries"
+       cdkDrag
+       [cdkDragDisabled]="entry.id === selectedEntryId"
+       [cdkDragData]="entry"
+       class="entry-item">
 
-    <!--    <div *ngIf="partEntry.type === 'text'">-->
-    <!--      {{partEntry.data.text}}-->
-    <!--    </div>-->
+    <app-entry-edit-loader *ngIf="entry.id === selectedEntryId; else viewEntry"
+                           [data]="entry" (exitEdit)="selectedEntryId = null">
+    </app-entry-edit-loader>
 
-    <!--    <app-question-group-entry *ngIf="partEntry.type === 'fillBlanks'"-->
-    <!--                              [data]="partEntry.questions"-->
-    <!--                              [startShowAmount]="1">-->
-    <!--    </app-question-group-entry>-->
-  </app-entry-edit-loader>
+    <ng-template #viewEntry>
+      <app-entry-view-loader [data]="entry"
+                             (selectedId)="entrySelected($event)"
+      ></app-entry-view-loader>
+    </ng-template>
 
+
+    <!--  <button mat-icon-button color="primary" (click)="selectedEntryId = entry.id"><mat-icon>edit</mat-icon></button>-->
+  </div>
 </div>
 
 
+
+
+<button mat-stroked-button color="primary" [matMenuTriggerFor]="addEntryMenu">
+  <mat-icon>add</mat-icon>
+  <span>Add Entry</span>
+</button>
+
+<mat-menu #addEntryMenu="matMenu">
+  <button mat-menu-item (click)="addEntry(entryType.TEXT)">Text</button>
+  <button mat-menu-item (click)="addEntry(entryType.FILLBLANKS)">Questions - Fill Blank</button>
+</mat-menu>
 

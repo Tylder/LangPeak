@@ -1,0 +1,52 @@
+<div>
+<!--  {{question | json}}-->
+<!--  {{questionWords | json}}-->
+  <p>
+    <mat-hint *ngIf="!isHasBlanks()">
+      Press any word or words to blank them out for the question,
+      if multiple words next to each other are selected they will count as one and the student would need to fill in the entire sequence.
+    </mat-hint>
+  </p>
+
+  <app-fill-blank-add-alt *ngIf="fillBlanksEditService.isBlankSelected$ | async"></app-fill-blank-add-alt>
+</div>
+<!--<div class="full-width">-->
+<!--  <mat-card>-->
+<!--    <span *ngFor="let word of questionWords"-->
+<!--      class="question-text word-box"-->
+<!--      [ngClass]="{'word-selected': word.isSelected, 'mat-elevation-z2': word.isSelected}"-->
+<!--      appClickable-->
+<!--      (click)="toggleSelected(word)"-->
+<!--    >{{word.text}}</span>-->
+
+
+<!--    <p>-->
+<!--      <mat-hint *ngIf="getSelectedWords().length <= 0">-->
+<!--        Press any word or words to blank them out for the question,-->
+<!--        if multiple words next to each other are selected they will count as one and the student would need to fill in the entire sequence.-->
+<!--      </mat-hint>-->
+<!--    </p>-->
+
+    <div *ngIf="(!(fillBlanksEditService.isBlankSelected$ | async) &&
+                  fillBlanksEditService.selectedWords$ | async)?.length > 0">
+      <button mat-stroked-button (click)="createFillBlanks()">Make Selected Words blank</button>
+    </div>
+
+<!--  </mat-card>-->
+<!--</div>-->
+
+
+
+
+<!--<ng-template #isNotEdit>-->
+<!--  <span *ngFor="let word of questionWords"-->
+<!--        class="fill-blank-text"-->
+<!--  >{{word.text}}</span>-->
+
+<!--  <button mat-icon-button (click)="fillBlanksEditService.questionInEdit.next(question)">-->
+<!--    <mat-icon color="primary">edit</mat-icon>-->
+<!--  </button>-->
+<!--</ng-template>-->
+
+<!--{{question | json}}-->
+

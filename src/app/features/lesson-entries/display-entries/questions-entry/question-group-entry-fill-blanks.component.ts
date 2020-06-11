@@ -32,6 +32,7 @@ class BaseClass {
 
 const mixinBase = mixinLoadDynamicEntry(BaseClass);
 
+
 @Component({
   selector: 'app-question-group-entry-fill-blanks',
   templateUrl: './question-group-entry-fill-blanks.component.html',
@@ -57,6 +58,7 @@ export class QuestionGroupEntryFillBlanksComponent extends mixinBase implements 
 
   constructor(private utilsService: UtilsService,
               private questionService: QuestionService,
+              // private lesson2Service: Lesson2Service,
               public componentFactoryResolver: ComponentFactoryResolver) {
 
     super(componentFactoryResolver);
@@ -69,23 +71,58 @@ export class QuestionGroupEntryFillBlanksComponent extends mixinBase implements 
   }
 
   ngOnInit(): void {
+    // this.entry = this.data; // just for clarity
+    // this.lesson2Service.listenForPartEntry$(this.data.path).pipe( // we need to update the data since we arent reloading the component
+    // ).subscribe((entry) => {
+    this.entry = this.data; // just for clarity;
 
-    this.entry = this.data; // just for clarity
+    console.log(this.entry);
 
-    this.questionHandler = new QuestionHandler(
-      this.utilsService,
-      this.entry.data.questions,
-      this.startShowAmount,
-      this.questionValidators
-    );
+    try {
 
-    this.questions = this.questionHandler.questionGroup;
-    this.questionService.addQuestionHandler(this.questionHandler);
+      const fullQuestions = this.getFullQuestionsDeep(this.entry.data.questions,
+                                     ['fullText', 'correctValue', 'textBefore', 'textAfter'],
+                                        'questions');
 
+      this.questionHandler = new QuestionHandler(
+        this.utilsService,
+        fullQuestions,
+        this.startShowAmount,
+        this.questionValidators
+      );
 
+      this.questions = this.questionHandler.questionGroup;
+      this.questionService.addQuestionHandler(this.questionHandler);
+
+      this.loadQuestionGroupType('drag-and-drop');
+    }
+    catch (err) {
+      console.log(err);
+    }
+
+    // });
     // const componentItem = new ContentItem(FillBlanksGroupComponent, {questionHandler: this.questionHandler});
-    this.loadQuestionGroupType('drag-and-drop');
   }
+
+
+  getFullQuestionsDeep(datas: {[key: string]: any}[], requiredFieldKeys: string[], recursionKey?: string) {
+    const fullData = [];
+
+    if (!datas) { return fullData; }
+
+    datas.forEach(data => {
+      if (requiredFieldKeys.every(reqKey => data.hasOwnProperty(reqKey))) {
+        if (recursionKey && data.hasOwnProperty(recursionKey)) { //  go deeper
+          fullData.push(this.getFullQuestionsDeep(data.recursionKey, requiredFieldKeys, recursionKey));
+        } else {
+          fullData.push(data); //  no more depth
+        }
+      }
+    });
+
+    return fullData;
+  }
+
 
   loadQuestionGroupType(key: string) {
 

@@ -1,1 +1,20 @@
-<p>text-entry-edit works!</p> {{data.data | json}}
+<!--<p>text-entry-edit works!</p> {{data.data | json}}-->
+<form [formGroup]="form">
+  <quill-editor
+    [styles]="{}"
+    [modules]="modules"
+    format="object"
+    formControlName="editor"
+    (onSelectionChanged)="selection($event)"
+  ></quill-editor>
+</form>
+
+<!--<quill-view [content]="form.get('editor').value" [preserveWhitespace]="true" format="object"></quill-view>-->
+
+<!--<pre>-->
+<!--  <code>-->
+<!--    {{form.get('editor').value | json}}-->
+<!--  </code>-->
+<!--</pre>-->
+
+

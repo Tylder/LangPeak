@@ -8,6 +8,7 @@ import {MixinTestComponent} from './components/mixin-test/mixin-test.component';
 import {MixinTest2Component} from './components/mixin-test2/mixin-test2.component';
 import {LayoutTest2Component} from './components/layout-test/layout-test2.component';
 import {LayoutTestComponent} from './components/layout-test2/layout-test.component';
+import {QuillRestComponent} from './components/quill-rest/quill-rest.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'mixin2', component: MixinTest2Component},
   { path: 'layout', component: LayoutTestComponent},
   { path: 'layout2', component: LayoutTest2Component},
+  { path: 'quill', component: QuillRestComponent},
   { path: 'lesson-creator', loadChildren: () => import('./features/create-lesson/create-lesson.module').then(m => m.CreateLessonModule) },
   { path: 'classroom', loadChildren: () => import('./features/classroom/classroom.module').then(m => m.ClassroomModule) },
   { path: '', loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule) },

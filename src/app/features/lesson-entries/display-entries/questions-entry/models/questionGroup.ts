@@ -16,6 +16,7 @@ function _createControls(questions: QuestionData[],
 
   const tempControls = {};
 
+
   questions.forEach((qData, index) => {
     console.log(qData);
     if (!('questions' in qData) || qData?.questions.length === 1) {

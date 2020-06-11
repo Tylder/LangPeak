@@ -7,11 +7,19 @@ import {pairwise} from 'rxjs/operators';
 export function correctValueValidator(q: Question): { [key: string]: any } {
 
   let isValid = false;
-  if (typeof q.data.correctValue === 'string' && q.value !== null && q.value !== undefined) {
-    isValid = q.data.correctValue.toLowerCase() === q.value.toString().toLowerCase();
-  } else {
-    isValid = q.value === q.data.correctValue;
+
+  if (q.value != null) {
+    const index = q.data.correctValues.findIndex((correctValue: string) => {
+      return correctValue.toLowerCase() === q.value.toString().toLowerCase();
+    });
+    isValid = index > -1;
   }
+
+  // if (typeof q.data.correctValue === 'string' && q.value !== null && q.value !== undefined) {
+  //   isValid = q.data.correctValue.toLowerCase() === q.value.toString().toLowerCase();
+  // } else {
+  //   isValid = q.value === q.data.correctValue;
+  // }
   return isValid ? null : { incorrectValue: {value: q.value} };
 }
 
@@ -98,7 +106,7 @@ export class Question extends FormControl {
   }
 
   fillCorrectValue() {
-    this.setValue(this.data.correctValue);
+    this.setValue(this.data.correctValues[0]);
   }
 
   hasValue(): boolean {

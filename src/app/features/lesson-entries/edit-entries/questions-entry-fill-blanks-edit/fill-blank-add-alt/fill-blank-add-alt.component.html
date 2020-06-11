@@ -1,0 +1,87 @@
+<div fxLayout="row" fxLayoutAlign="space-between" class="full-width">
+
+  <div fxFlex="45">
+    <h3>Correct Values</h3>
+    <mat-hint>Some questions can have several correct Values, enter them here</mat-hint>
+
+    <mat-form-field  [formGroup]="addCorrectForm"
+                     class="form-input"
+                     (keydown.enter)="addCorrectValue()">
+      <mat-label>Enter a Correct Value</mat-label>
+      <input matInput formControlName="correctValue"
+             placeholder="Walking">
+      <button *ngIf="addCorrectForm.controls.correctValue.value"
+              matSuffix mat-icon-button aria-label="Clear"
+              color="warn"
+              (click)="addCorrectForm.controls.alternative.setValue('')">
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <button color="primary"
+              mat-icon-button
+              matSuffix aria-label="Add"
+              [disabled]="addCorrectForm.invalid"
+              (click)="addCorrectValue()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-chip-list>
+      <mat-chip *ngFor="let correct of question?.correctValues" color="accent">
+        {{correct}}
+        <button mat-icon-button color="warn" class="small" (click)="removeCorrect(correct)"><mat-icon>delete</mat-icon></button>
+      </mat-chip>
+    </mat-chip-list>
+
+  </div>
+
+  <mat-divider [vertical]="true"></mat-divider>
+
+  <mat fxFlex="45">
+    <h3>Alternatives</h3>
+    <mat-hint>Incorrect entries to be shown as alternatives</mat-hint>
+
+    <mat-form-field  [formGroup]="addAlternativeForm"
+                     class="form-input"
+                     (keydown.enter)="addAlt()">
+      <mat-label>Enter an alternative incorrect Value</mat-label>
+      <input matInput formControlName="alternative"
+             placeholder="Walking">
+      <button *ngIf="addAlternativeForm.controls.alternative.value"
+              color="warn"
+              matSuffix mat-icon-button aria-label="Clear"
+              (click)="addAlternativeForm.controls.alternative.setValue('')">
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <button color="primary"
+              mat-icon-button
+              matSuffix aria-label="Add"
+              [disabled]="addAlternativeForm.invalid"
+              (click)="addAlt()">
+        <mat-icon>add</mat-icon>
+      </button>
+
+    </mat-form-field>
+
+    <mat-chip-list>
+      <mat-chip *ngFor="let alt of question?.alternatives" color="accent">
+        {{alt}}
+        <button mat-icon-button color="warn" class="small" (click)="removeAlt(alt)"><mat-icon>delete</mat-icon></button>
+      </mat-chip>
+    </mat-chip-list>
+  </mat>
+
+
+
+
+</div>
+
+<div fxLayout="row" fxLayoutAlign="end " class="bottom-actions">
+  <button mat-stroked-button color="warn" (click)="removeBlank()">
+    <span>Remove Blank</span>
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>
+
+<!--{{question | json}}-->

@@ -3,9 +3,11 @@ import {Lesson, LessonPartEntry, LessonPartEntryType, LessonPartFull, LessonPart
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {BehaviorSubject, combineLatest, forkJoin, interval, merge, Observable, of, ReplaySubject, timer, zip} from 'rxjs';
 import {AngularFirestore, AngularFirestoreDocument, QueryFn} from '@angular/fire/firestore';
-import {catchError, map, mergeMap, tap} from 'rxjs/operators';
+import {catchError, map, mergeMap, take, tap} from 'rxjs/operators';
 import {BaseFirestoreService} from './base-firestore.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
+import {DbItemFullWithIndex} from '../models/dbItem';
+// import { firestore as fs } from 'firebase';
 // import WriteBatch = firebase.firestore.WriteBatch;
 // import { Writebatch } from 'firebase.firestore';
 
@@ -39,7 +41,7 @@ export class Lesson2Service extends BaseFirestoreService<Lesson> {
     this.lesson$ = new ReplaySubject<Lesson>(1);
     this.lessonPart$ = new ReplaySubject<LessonPartFull>(1);
     this.lessonPartsSeparated$ = new BehaviorSubject<LessonPartsSeparated>(undefined);
-    this.lessonParts$ = new BehaviorSubject<Array<LessonPartPartial|LessonPartFull>>(undefined);
+    this.lessonParts$ = new BehaviorSubject<Array<LessonPartPartial | LessonPartFull>>(undefined);
 
     this.lessonPart$.subscribe(val => console.log(val));
     this.lesson$.subscribe(val => console.log(val));
@@ -57,10 +59,9 @@ export class Lesson2Service extends BaseFirestoreService<Lesson> {
   }
 
 
-
   lessonPartMoveItemInArray(array: LessonPartPartial[], fromIndex: number, toIndex: number): Observable<any> {
 
-    const batch = this.getBatchFromMoveItemInIndexedDocs(array, fromIndex, toIndex);
+    const batch = this.getBatchFromMoveItemInIndexedDocs(array as DbItemFullWithIndex[], fromIndex, toIndex);
 
     return this.batchCommit(batch);
   }
@@ -71,17 +72,17 @@ export class Lesson2Service extends BaseFirestoreService<Lesson> {
                                      previousIndex: number,
                                      currentIndex: number,
                                      newType: PartTypes,
-                                     useCopy = false): Observable<any>{
+                                     useCopy = false): Observable<any> {
     /**
      * Used mainly for drag and drop scenarios where we drag an item from one array to another and the the docs have an index attribute.
      */
 
-    const batch = this.getBatchFromTransferItemInIndexedDocs(previousArray,
-                                                             currentArray,
-                                                             previousIndex,
-                                                             currentIndex,
-                               {type: newType},
-                                                             useCopy);
+    const batch = this.getBatchFromTransferItemInIndexedDocs(previousArray as DbItemFullWithIndex[],
+      currentArray as DbItemFullWithIndex[],
+      previousIndex,
+      currentIndex,
+      {type: newType},
+      useCopy);
 
     return this.batchCommit(batch);
   }
@@ -117,7 +118,7 @@ export class Lesson2Service extends BaseFirestoreService<Lesson> {
     return this.listenForCollection$(collection);
   }
 
-  listenForLessonPartListSeparated$(lessonId: string, queryFn?: QueryFn): Observable<LessonPartsSeparated>  {
+  listenForLessonPartListSeparated$(lessonId: string, queryFn?: QueryFn): Observable<LessonPartsSeparated> {
     // const collection = this.baseCollection.doc(lessonId).collection<LessonPartPartial>('parts',
     //     ref => ref.orderBy('index'));
     // return this.listenForCollection$<LessonPartPartial | LessonPartFull>(collection).pipe(
@@ -146,43 +147,45 @@ export class Lesson2Service extends BaseFirestoreService<Lesson> {
     return this.listenForDoc$(doc);
   }
 
-  listenForLessonPart$(lessonId: string, partId: string): Observable<LessonPartFull> {
+  listenForLessonPart$(lessonId: string, partId: string): Observable<any> {
     /**
      * Gets the full lessonPart including the entries
      */
     const partRef = this.baseCollection
-                      .doc(lessonId)
-                      .collection('parts')
-                      .doc<LessonPartFull>(partId);
+      .doc(lessonId)
+      .collection('parts')
+      .doc<LessonPartFull>(partId);
 
     const part$ = this.listenForDoc$<LessonPartPartial>(partRef);
 
-    const partEntries$ = this.listenForPartEntries$(lessonId, partId);
+    const partEntriesData$ = this.listenForPartEntriesData$(lessonId, partId);
 
-    return combineLatest([part$, partEntries$]).pipe(
+    return combineLatest([part$, partEntriesData$]).pipe(
       tap(val => console.log(val)),
-      map(([partData, entries]) => {
-        // if (entries.length > 0) { return {...entries, ...partData }; }
-        // else {  return {...partData}; }  // dont include an empty array
-        return { ...entries, ...partData };
-      })
+      map(([partData, entriesData]) => {
+        if (entriesData.entries.length > 0) { return {...entriesData, ...partData }; }
+        else {  return {...partData}; }  // dont include an empty array
+        // return {entries, ...partData};
+      }),
+      tap(val => console.log(val)),
     );
   }
 
-  listenForPartEntries$(lessonId: string, partId: string): Observable<any> {
+  listenForPartEntriesData$(lessonId: string, partId: string): Observable<{entries: LessonPartEntry[], entriesPath?: string}> {
     const partEntriesRef = this.baseCollection
       .doc(lessonId)
       .collection('parts')
       .doc<LessonPartFull>(partId)
-      .collection('entries');
+      .collection('entries', ref => ref.orderBy('index'));
 
-    const partEntries$ = this.listenForCollection$<LessonPartEntry>(partEntriesRef);
+    const partEntries$ = this.listenForCollection$<LessonPartEntry>(partEntriesRef, );
 
     return partEntries$.pipe(
-
       mergeMap((entries) => {
 
-        if (entries.length <= 0) { return of(entries); }
+        if (entries.length <= 0) {
+          return of(entries);
+        }
 
         const questionsObs: Array<Observable<any>> = [];
 
@@ -190,8 +193,11 @@ export class Lesson2Service extends BaseFirestoreService<Lesson> {
 
           const questions$ = this.listenForEntryQuestions$(entry.path).pipe(
             map((questions) => {
-              if (questions.length > 0) { return {...entry, data: {questions} }; }
-              else {  return {...entry}; }  // dont include an empty array
+              if (questions.length > 0) {
+                return {...entry, data: {questions}};
+              } else {
+                return {...entry};
+              }  // dont include an empty array
             }),
             tap(questions => console.log(questions))
           );
@@ -211,6 +217,28 @@ export class Lesson2Service extends BaseFirestoreService<Lesson> {
     );
   }
 
+  listenForPartEntry$(entryPath: string, includeQuestions = false): Observable<LessonPartEntry> {
+    const docRef = this.firestore.doc(entryPath);
+
+    return this.listenForDoc$<LessonPartEntry>(docRef).pipe(
+      mergeMap((entry) => {
+        if (includeQuestions) {
+          return this.listenForEntryQuestions$(entry.path).pipe(
+            map((questions) => {
+              if (questions.length > 0) {
+                return {...entry, data: {questions}};
+              } else {
+                return {...entry};
+              }  // dont include an empty array
+            })
+          );
+        } else {
+         return of(entry);
+        }
+      })
+    );
+  }
+
   listenForEntryQuestions$(entryPath: string): Observable<QuestionData[]> {
     const path = this.firestore.doc(entryPath).collection('questions').ref.path;
 
@@ -221,7 +249,7 @@ export class Lesson2Service extends BaseFirestoreService<Lesson> {
     /**
      * By path is meant to be called recursively
      */
-    return this.listenForCollectionRecursively<QuestionData>(path, 'questions').pipe(
+    return this.listenForCollectionRecursively<QuestionData>(path, 'questions', 'index').pipe(
       tap(val => console.log(val))
     );
   }
@@ -238,20 +266,49 @@ export class Lesson2Service extends BaseFirestoreService<Lesson> {
     const partsCollection = this.getLessonDoc(lessonId).collection('parts');
 
     delete part.id; // dont save the id if there is one..
+    delete part.path; // dont save the path
 
     return this.add$(part, partsCollection);
   }
 
-  addEntryToPart$(entry: LessonPartEntry, path: string) {
-    const entryCollection = this.firestore.collection(path);
+  addEntryToPart$(entry: LessonPartEntry, part: LessonPartFull | LessonPartEntry): Observable<any> {
+    const entryCollection = this.firestore.doc(part.path).collection('entries');
 
     delete entry.id; // dont save the id if there is one..
+    delete entry.path; // dont save the path
 
     return this.add$(entry, entryCollection);
   }
 
-  updateLesson(lesson: Lesson, lessonId: string) {
+  addQuestion$(doc: LessonPartEntry | QuestionData, question: QuestionData): Observable<any> {
+    const questionCollection = this.firestore.doc(doc.path).collection('questions');
+
+    delete question.id; // dont save the id if there is one..
+    delete question.path; // dont save the path
+
+    return this.add$(question, questionCollection);
+  }
+
+  updateQuestion$(question: QuestionData) {
+    const doc = this.firestore.doc(question.path);
+
+    delete question.id; // dont save the id if there is one..
+    delete question.path; // dont save the path
+
+    return this.update$(question, doc);
+  }
+
+
+  updateLesson$(lesson: Lesson, lessonId: string) {
+
+    delete lesson.id; // dont save the id if there is one..
+    delete lesson.path; // dont save the path
+
     return this.update$(lesson, this.baseCollection.doc(lessonId));
   }
+
+
+
+
 
 }

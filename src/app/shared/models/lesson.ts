@@ -1,4 +1,4 @@
-import {Db} from './db';
+import {DbItem} from './dbItem';
 import {AngularFirestoreCollection} from '@angular/fire/firestore';
 
 /**
@@ -17,7 +17,7 @@ export enum LessonPartEntryType {
 }
 
 // QUESTION
-export class QuestionState extends Db {
+export class QuestionState extends DbItem {
   isValid: boolean;
   isDirty: boolean;
   isShow: boolean;
@@ -26,11 +26,12 @@ export class QuestionState extends Db {
   shownAlternativeAnswers: any[];
 }
 
-export interface QuestionData extends Db {
+export interface QuestionData extends DbItem {
   // due to the entries having such varied questions-entry and sometimes multiple questions-entry per row it is possible to treat each QuestionData
   // as a container for more questions-entry
-  id: string;  // make id required...is used to identify the question or group control
-  correctValue?: any | any[];
+  // id: string;  // make id required...is used to identify the question or group control
+  index: number;
+  correctValues?: any[];
   state?: QuestionState;
   alternatives?: any[];
   questions?: QuestionData[];
@@ -38,11 +39,11 @@ export interface QuestionData extends Db {
 }
 
 // Lesson Part Entry
-export class LessonPartEntryState extends Db { // meant to be inherited to create different question-group-types
+export class LessonPartEntryState extends DbItem { // meant to be inherited to create different question-group-types
   type: LessonPartEntryType;
 }
 
-export class LessonPartEntry extends Db { // meant to be inherited to create different question-group-types
+export class LessonPartEntry extends DbItem { // meant to be inherited to create different question-group-types
   type: LessonPartEntryType;
   index: number;
   // questions?: QuestionData[];
@@ -52,12 +53,12 @@ export class LessonPartEntry extends Db { // meant to be inherited to create dif
 
 // LessonPart
 
-export interface LessonPartState extends Db {
+export interface LessonPartState extends DbItem {
   isComplete: boolean;
   score: number;
 }
 
-export interface LessonPartPartial extends Db {
+export interface LessonPartPartial extends DbItem {
   /**
    *  Used so we dont have to fetch all parts at the same time
    */
@@ -79,7 +80,7 @@ export enum PartTypes {
   HOMEWORK = 'homework',
 }
 
-export interface Lesson extends Db {
+export interface Lesson extends DbItem {
 
   /**
    * Each lessons consists of several parts, each part small enough to not have to scroll too much on mobile

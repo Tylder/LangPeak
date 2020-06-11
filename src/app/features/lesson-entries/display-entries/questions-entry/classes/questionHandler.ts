@@ -4,7 +4,7 @@ import {UtilsService} from '../../../../../shared/services/utils.service';
 import {QuestionGroup} from '../models/questionGroup';
 import {Question} from '../models/question';
 import {merge, Observable} from 'rxjs';
-import {filter, map, pairwise, startWith, tap} from 'rxjs/operators';
+import {filter, map, max, pairwise, startWith, tap} from 'rxjs/operators';
 // @ts-ignore
 import * as deepEqual from 'fast-deep-equal';
 import * as faker from 'faker';
@@ -54,6 +54,8 @@ export class QuestionHandler {
               questionValidators?: ValidatorFn | ValidatorFn[] | null) {
 
     this.questionsData = questions;
+
+    console.log(this.questionsData);
     // this.questionsData.forEach(questionData => {
     //   questionData.temp = { questionHandler: this };
     // });
@@ -161,7 +163,9 @@ export class QuestionHandler {
     let questionsNotUsed = this.getQuestionsNotInQuestionsGroup();
     console.log(questionsNotUsed);
 
-    for (let i = 0; i < amount; i++) {
+    const usedAmount = Math.min(amount, questionsNotUsed.length);
+
+    for (let i = 0; i < usedAmount; i++) {
 
       const pickedQuestion = this.utilsService.sampleArray(questionsNotUsed);
       questionsNotUsed = questionsNotUsed.filter(qData => qData.id !== pickedQuestion.id); // remove question for future iteration picks

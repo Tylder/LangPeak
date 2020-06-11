@@ -12,9 +12,10 @@ for (let i = 0; i < 20; i++) {
 
   const part1: FillBlankTextQuestion = {
     id: faker.random.uuid(),
+    index: 0,
     fullText: sentence,
     textBefore: sentenceParts.slice(0, randomNumber).join(' '),
-    correctValue: sentenceParts[randomNumber],
+    correctValues: [sentenceParts[randomNumber]],
     textAfter: sentenceParts.slice(randomNumber + 1).join(' '),
     alternatives: faker.lorem.words(4).split(' ')
   };
@@ -27,15 +28,17 @@ for (let i = 0; i < 20; i++) {
 
     const part2: FillBlankTextQuestion = {
       id: faker.random.uuid(),
+      index: 0,
       fullText: sentence,
       textBefore: sentenceParts.slice(0, randomNumber).join(' '),
-      correctValue: sentenceParts[randomNumber],
+      correctValues: [sentenceParts[randomNumber]],
       textAfter: sentenceParts.slice(randomNumber + 1).join(' '),
       alternatives: faker.lorem.words(4).split(' ')
     };
 
     const fillBlankText: FillBlankTextQuestion = {
       id: faker.random.uuid(),
+      index: i,
       fullText: part1.fullText + part2.fullText,
       questions: [part1, part2]
     };

@@ -1,5 +1,5 @@
 <!--<input class="fill-blank-input" *ngIf="question.invalid" [formControl]="question" [appInputBlankText]="question.data.correctValue.length">-->
-<cdk-drop-list *ngIf="question.invalid" [appInputBlankText]="question.data.correctValue.length" [useMinWidth]="true"
+<cdk-drop-list *ngIf="question.invalid" [appInputBlankText]="question.data.correctValues[0].length" [useMinWidth]="true"
       [id]="question.data.id"
       [cdkDropListData]="question"
       class="drag-drop-fill-blank-area"
@@ -16,4 +16,4 @@
 <!--{{question.previousValue}}-->
 <!--{{question.hasPreviousValue()}}-->
 
-<app-fill-blank-valid *ngIf="question.valid" [text]="question.data.correctValue"></app-fill-blank-valid>
+<app-fill-blank-valid *ngIf="question.valid" [text]="question.value"></app-fill-blank-valid>

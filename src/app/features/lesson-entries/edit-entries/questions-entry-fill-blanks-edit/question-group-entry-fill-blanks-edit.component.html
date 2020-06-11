@@ -1,0 +1,58 @@
+<div class="question-group">
+
+  <div class="question-group-top" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="label">Questions</div>
+    <div class="actions">
+
+      <button mat-icon-button color="primary" (click)="showAddQuestionFullTextInput()">
+        <mat-icon matTooltip="Add Question">add</mat-icon>
+      </button>
+
+    </div>
+  </div>
+
+  <div *ngFor="let question of (fillBlanksEditService.questions$ | async); let i = index; trackBy: trackEntries" fxLayout="row" fxLayoutAlign=" center" class="row">
+    <app-base-index [index]="i">
+      <button mat-menu-item matTooltip="Delete" matTooltipPosition="right" (click)="deleteQuestion(question)">
+        <mat-icon color="warn">delete</mat-icon>
+      </button>
+    </app-base-index>
+    <app-fill-blank-row-edit [question]="question" fxFlex></app-fill-blank-row-edit>
+<!--    <app-question-item-edit fxFlex [question]="question"></app-question-item-edit>-->
+  </div>
+
+
+  <div *ngIf="isShowAddQuestionInput">
+    <mat-form-field  [formGroup]="addQuestionFullTextForm"
+                     class="new-question-input">
+      <mat-label>Please enter the full sentence.</mat-label>
+      <input matInput formControlName="fullText"
+             placeholder="John walked to the park yesterday">
+      <button mat-button *ngIf="addQuestionFullTextForm.controls.fullText.value"
+              matSuffix mat-icon-button aria-label="Clear"
+              (click)="addQuestionFullTextForm.controls.fullText.setValue('')">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutAlign="end center">
+
+      <button mat-button color="warn" matSuffix  aria-label="Clear" (click)="cancelAddQuestion()">
+        <mat-icon>cancel</mat-icon>
+        <span>Cancel</span>
+      </button>
+
+      <button mat-button color="primary" [disabled]="addQuestionFullTextForm.invalid" matSuffix  aria-label="Clear" (click)="addQuestion()">
+<!--        <mat-icon>add</mat-icon>-->
+        <span>Continue</span>
+      </button>
+    </div>
+
+  </div>
+
+
+<!--  {{entry.data | json}}-->
+
+<!--  <ng-template appEntryContent></ng-template>-->
+
+</div>

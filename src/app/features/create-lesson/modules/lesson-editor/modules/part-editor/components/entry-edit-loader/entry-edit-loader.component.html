@@ -1,2 +1,15 @@
-<p>part-entry works!</p>
-<ng-template appEntryContent></ng-template>
+<!--<div class="entry-container mat-elevation-z2">-->
+<div class="mat-card entry-card">
+  <ng-template appEntryContent></ng-template>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+
+    <button mat-stroked-button color="primary" (click)="exitEdit.emit()">
+      <mat-icon>close</mat-icon>
+      <span>Close Edit</span>
+    </button>
+    <button mat-icon-button color="warn" (click)="deleteEntry()"><mat-icon>delete</mat-icon></button>
+  </div>
+
+</div>
+

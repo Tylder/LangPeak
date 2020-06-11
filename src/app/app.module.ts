@@ -22,6 +22,7 @@ import { MixinTestComponent } from './components/mixin-test/mixin-test.component
 import { MixinTest2Component } from './components/mixin-test2/mixin-test2.component';
 import { LayoutTest2Component } from './components/layout-test/layout-test2.component';
 import {LayoutTestComponent} from './components/layout-test2/layout-test.component';
+import { QuillRestComponent } from './components/quill-rest/quill-rest.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {LayoutTestComponent} from './components/layout-test2/layout-test.compone
     MixinTest2Component,
     LayoutTestComponent,
     LayoutTest2Component,
+    QuillRestComponent,
   ],
   imports: [
     BrowserAnimationsModule,

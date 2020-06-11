@@ -1,3 +1,5 @@
-<input class="fill-blank-input" *ngIf="question.invalid" [formControl]="question" [appInputBlankText]="question.data.correctValue.length">
+<input class="fill-blank-input"
+       *ngIf="question.invalid" [formControl]="question"
+       [appInputBlankText]="question.data.correctValues[0].length">
 
-<app-fill-blank-valid *ngIf="question.valid" [text]="question.data.correctValue"></app-fill-blank-valid>
+<app-fill-blank-valid *ngIf="question.valid" [text]="question.data.correctValues[0]"></app-fill-blank-valid>
